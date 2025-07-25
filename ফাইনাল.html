@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>প্রয়োজনীয় টুলস</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="qr.css">
+  <link rel="stylesheet" href="remove.css">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      animation: fadeIn 0.8s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-family: 'Siyam Rupali', sans-serif;
+      animation: slideDown 0.6s ease;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .btn {
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      font-family: 'Roboto', sans-serif;
+      cursor: pointer;
+      text-transform: capitalize;
+      transition: transform 0.3s ease, opacity 0.3s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .qr { background-color: #0a8754; }
+    .bg { background-color: #0275d8; }
+    .scener { background-color: #c9302c; }
+    .resolution { background-color: #9b870c; }
+    .crop { background-color: #333; }
+    .tex { background-color: #1d9b40; }
+
+    .tool-section {
+      display: none;
+      margin-top: 20px;
+      animation: fadeSlideIn 0.6s ease forwards;
+      opacity: 0;
+      height: auto;
+    }
+
+    .tool-section.active {
+      display: block;
+      animation: fadeSlideIn 0.6s ease forwards;
+    }
+
+    .back-btn {
+      display: none;
+      margin-bottom: 20px;
+      text-align: left;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .back-btn button {
+      background-color: #ddd;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-btn button:hover {
+      background-color: #ccc;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 13px;
+      color: gray;
+      animation: fadeIn 1s ease;
+    }
+
+    .footer a {
+      color: #0275d8;
+      text-decoration: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .tools { grid-template-columns: 1fr; }
+      .btn { font-size: 16px; padding: 14px; }
+      h2 { font-size: 22px; }
+      .container { padding: 20px; height: 100vh; max-height: none; box-sizing: border-box; }
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        transform: scale(1.15);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="back-btn" id="backBtn">
+      <button onclick="goBack()">← Back</button>
+    </div>
+
+    <h2 id="pageTitle">প্রয়োজনীয় টুলস</h2>
+
+    <div class="tools" id="toolButtons">
+      <button class="btn qr" onclick="showTool('qr')">QR Code Generator</button>
+      <button class="btn bg" onclick="showTool('bg')">Background Remover</button>
+      <button class="btn scener" onclick="showTool('scener')">Document Scanner</button>
+      <button class="btn resolution" onclick="showTool('resolution')">Image Enhancer</button>
+      <button class="btn crop" onclick="showTool('crop')">Image Cropper</button>
+      <button class="btn tex" onclick="showTool('tex')">Text Extractor</button>
+    </div>
+
+    <!-- QR Code Tool Section -->
+    <div class="tool-section" id="qr">
+      <div class="card-wrapper">
+        <div id="interlinkPopup">Please enter a valid link</div>
+        <div class="card" id="mainCard">
+          <button id="muteBtn" title="Mute/Unmute">🔊</button>
+          <h2>QR Code Generator</h2>
+          <input id="linkInput" type="text" placeholder="Enter link (e.g. https://example.com)" />
+          <input id="descInput" type="text" placeholder="Optional description" />
+          <button class="generate-btn" onclick="playClick(); generateQRCode()">Generate QR Code</button>
+          <p id="counterInfo" class="description-text">You have 10 free QR codes remaining.</p>
+          <div id="qrCodeContainer"></div>
+          <button id="downloadBtn" onclick="playDownload(); showFormats()">Download Now</button>
+          <div class="format-options" id="formatOptions">
+            <button class="png-btn" onclick="playClick(); downloadFormat('png')">PNG</button>
+            <button class="jpg-btn" onclick="playClick(); downloadFormat('jpg')">JPG</button>
+            <button class="svg-btn" onclick="playClick(); downloadFormat('svg')">SVG</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="popup">
+        <div class="popup-content">
+          <h2>Limit Exceeded</h2>
+          <p>আপনি ফ্রিতে সর্বোচ্চ ১০টি QR কোড জেনারেট করতে পারবেন। এখন থেকে প্রতি কোডের জন্য $১ দিতে হবে।</p>
+          <button onclick="playClick(); showPaymentForm()">Pay Now</button>
+          <div class="payment-form" id="paymentForm">
+            <input type="text" placeholder="Cardholder Name" />
+            <input type="text" placeholder="Card Number" />
+            <input type="text" placeholder="MM/YY" />
+            <input type="text" placeholder="CVC" />
+            <button onclick="playClick(); processPayment()">Submit Payment</button>
+          </div>
+        </div>
+      </div>
+
+      <audio id="clickSound" src="mouse-click-1.mp3" preload="auto"></audio>
+      <audio id="typeSound" src="keyboard-typin.mp3" preload="auto"></audio>
+      <audio id="downloadSound" src="swoosh-3.mp3" preload="auto"></audio>
+    </div>
+
+    <!-- Background Remover Tool Section -->
+    <div class="tool-section" id="bg">
+      <div class="card-wrapper">
+        <div class="card-content" id="card">
+          <h1>Remove Background</h1>
+          <input type="file" id="imageInput" accept="image/*" onchange="showPreview()">
+          <div style="position:relative;">
+            <img id="previewImage" style="display:none;">
+            <div id="processingOverlay" class="processing-overlay" style="display:none;">
+              <div class="loader"></div>
+              <span id="progressPercent">0%</span>
+            </div>
+          </div>
+          <button onclick="removeBackground()" id="submitBtn">Remove Background</button>
+          <button id="downloadMainBtn">Download Now</button>
+          <div class="download-buttons" id="downloadBtns">
+            <button id="downloadPngBtn">Download PNG</button>
+            <button id="downloadJpgBtn">Download HD</button>
+          </div>
+          <div class="error" id="errorMsg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Tools -->
+    <div class="tool-section" id="scener"></div>
+    <div class="tool-section" id="resolution"></div>
+    <div class="tool-section" id="crop"></div>
+    <div class="tool-section" id="tex"></div>
+
+    <div class="footer">
+      Developer By: <a href="#">Ebrahim Khalil</a>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <script src="qr.js"></script>
+  <script src="remove.js"></script>
+
+  <script>
+    function showTool(id) {
+      document.getElementById('toolButtons').style.display = 'none';
+      document.getElementById('backBtn').style.display = 'block';
+      document.getElementById('pageTitle').style.display = 'none';
+      const sections = document.querySelectorAll('.tool-section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+        section.style.display = 'none';
+      });
+      const selected = document.getElementById(id);
+      selected.classList.add('active');
+      selected.style.display = 'block';
+    }
+
+    function goBack() {
+      document.getElementById('toolButtons').style.display = 'grid';
+      document.getElementById('backBtn').style.display = 'none';
+      document.getElementById('pageTitle').style.display = 'block';
+      const sections = document.querySelectorAll('.tool-section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+        section.style.display = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
