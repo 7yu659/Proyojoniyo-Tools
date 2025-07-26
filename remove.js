@@ -11,6 +11,7 @@ function showPreview() {
   const errorMsg = document.getElementById('errorMsg');
 
   selectedFile = fileInput.files[0];
+
   if (selectedFile) {
     originalFilename = selectedFile.name.split('.').slice(0, -1).join('.') || 'download';
     previewImage.src = URL.createObjectURL(selectedFile);
@@ -22,7 +23,6 @@ function showPreview() {
     downloadBtns.classList.remove('show');
     errorMsg.textContent = '';
 
-    // অটো স্ক্রল করে বাটনের কাছে নিয়ে আসা
     setTimeout(() => {
       submitBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 300);
@@ -42,31 +42,33 @@ async function removeBackground() {
   overlay.style.display = 'flex';
   submitBtn.style.display = 'none';
   errorMsg.textContent = '';
-  let percent = 0;
 
+  let percent = 0;
   const interval = setInterval(() => {
     percent = Math.min(percent + Math.floor(Math.random() * 10 + 5), 100);
     progressText.textContent = percent + '%';
   }, 300);
 
   const formData = new FormData();
-  formData.append("image_file", selectedFile);
-  formData.append("size", "auto");
+  formData.append("image", selectedFile);
 
   try {
-    const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+    const response = await fetch("http://127.0.0.1:5000/remove", {
       method: "POST",
-      headers: { "X-Api-Key": "YxXDduq1TfzyJY3QbSoVPWrA" },
       body: formData
     });
+
     clearInterval(interval);
     progressText.textContent = '100%';
 
     if (!response.ok) throw new Error("Failed");
+
     const blob = await response.blob();
     resultImgUrl = URL.createObjectURL(blob);
     previewImage.src = resultImgUrl;
+
     overlay.style.display = 'none';
+
     setTimeout(() => {
       downloadBtn.style.display = 'block';
       document.getElementById('card').scrollIntoView({ behavior: 'smooth' });
@@ -82,8 +84,6 @@ async function removeBackground() {
 document.getElementById('downloadMainBtn').onclick = () => {
   const btns = document.getElementById('downloadBtns');
   btns.classList.add('show');
-
-  // ✅ নিচের দুইটা বাটনের কাছে স্ক্রল করে নেয়
   setTimeout(() => {
     btns.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 100);

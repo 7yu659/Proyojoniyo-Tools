@@ -54,14 +54,14 @@ input[type="text"]:focus {
   outline: none;
 }
 button.generate-btn {
-  background-color: #2563eb;
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
   color: white;
   border: none;
   cursor: pointer;
   transition: background 0.2s ease-in-out;
 }
 button.generate-btn:hover {
-  background-color: #1d4ed8;
+  background: linear-gradient(90deg, #1d4ed8, #2563eb);
 }
 #qrCodeContainer {
   margin-top: 20px;
