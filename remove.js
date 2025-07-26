@@ -56,7 +56,7 @@ async function removeBackground() {
   try {
     const response = await fetch("https://api.remove.bg/v1.0/removebg", {
       method: "POST",
-      headers: { "X-Api-Key": "akFKbAUvBCaTcLVisqYg1CrC" },
+      headers: { "X-Api-Key": "VVYNDgBCeCHxCUnLhGLeN76C" },
       body: formData
     });
     clearInterval(interval);
