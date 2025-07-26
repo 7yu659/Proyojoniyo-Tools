@@ -7,6 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="qr.css">
   <link rel="stylesheet" href="remove.css">
+  <link rel="stylesheet" href="Scanner.css" />
+
 
   <style>
     body {
@@ -163,7 +165,7 @@
       <button class="btn tex" onclick="showTool('tex')">Text Extractor</button>
     </div>
 
-    <!-- QR Code Tool Section -->
+       <!-- QR Code Tool Section -->
     <div class="tool-section" id="qr">
       <div class="card-wrapper">
         <div id="interlinkPopup">Please enter a valid link</div>
@@ -228,14 +230,37 @@
       </div>
     </div>
 
+    <!-- Document Scanner Tool Section (New Code Injected Here) -->
+    <div class="tool-section" id="scener">
+      <h2>Image Scanner</h2>
+      <input type="file" id="imageInput" accept="image/*" />
+      
+      <div id="previewContainer">
+        <img id="previewImage" src="" alt="Preview" />
+        <div class="scanner-line scanner-blue" id="scannerLine1"></div>
+        <div class="scanner-line scanner-red" id="scannerLine2"></div>
+      </div>
+
+      <button id="scanBtn" class="btn btn-blue hidden">Scan Image</button>
+      <button id="downloadNow" class="btn btn-yellow hidden">Download Now</button>
+
+      <div class="res-buttons hidden" id="resolutionOptions">
+        <button class="res-btn" data-size="480">480px</button>
+        <button class="res-btn" data-size="720">720px</button>
+        <button class="res-btn" data-size="1080">1080px</button>
+        <button class="res-btn" data-size="1440">1440px</button>
+        <button class="res-btn" data-size="2160">2160px</button>
+        <button class="res-btn" data-size="5000">5000px</button>
+      </div>
+    </div>
+
     <!-- Other Tools -->
-    <div class="tool-section" id="scener"></div>
     <div class="tool-section" id="resolution"></div>
     <div class="tool-section" id="crop"></div>
     <div class="tool-section" id="tex"></div>
 
     <div class="footer">
-      Developer By: <a href="#">Ebrahim Khalil</a>
+      Developer By: <a href="https://www.facebook.com/ebrahim.khalil.260497" target="_blank">Ebrahim Khalil</a>
     </div>
   </div>
 
@@ -243,6 +268,7 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script src="qr.js"></script>
   <script src="remove.js"></script>
+  <script src="Scanner.js"></script>
 
   <script>
     function showTool(id) {

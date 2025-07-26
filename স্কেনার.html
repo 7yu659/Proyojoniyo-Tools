@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Scanner</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f1f5f9;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #1e293b;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      margin-bottom: 15px;
+    }
+
+    #previewContainer {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    #previewImage {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .scanner-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      border-radius: 2px;
+      animation: scanLine 3s ease-in-out forwards;
+      display: none;
+      z-index: 10;
+    }
+
+    .scanner-blue {
+      background: linear-gradient(90deg, rgba(59,130,246,0.2), rgba(59,130,246,1), rgba(59,130,246,0.2));
+    }
+
+    .scanner-red {
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 1), rgba(239, 68, 68, 0.2));
+    }
+
+    @keyframes scanLine {
+      0% { top: 0; opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 16px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: 0.3s;
+    }
+
+    .btn-blue {
+    background: #2563eb;
+    }
+
+    .btn-blue:hover {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    }
+
+    .btn-yellow {
+    background: linear-gradient(135deg, #fbbf24, #facc15);
+    color: #1e293b;
+    }
+
+    .btn-yellow:hover {
+     background: #f59e0b;
+      color: white;
+    }
+
+    .res-buttons {
+      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      animation: fadeInScale 0.6s ease-in-out;
+    }
+
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .res-btn {
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+      min-width: 90px;
+    }
+
+    .res-btn:hover {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    .res-btn:nth-child(1) {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    }
+    .res-btn:nth-child(2) {
+      background: linear-gradient(135deg, #9333ea, #6b21a8);
+    }
+    .res-btn:nth-child(3) {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    }
+    .res-btn:nth-child(4) {
+      background: linear-gradient(135deg, #10b981, #047857);
+    }
+    .res-btn:nth-child(5) {
+      background: linear-gradient(135deg, #f97316, #c2410c);
+    }
+    .res-btn:nth-child(6) {
+      background: linear-gradient(135deg, #ec4899, #be185d);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Image Scanner</h2>
+    <input type="file" id="imageInput" accept="image/*" />
+    
+    <div id="previewContainer">
+      <img id="previewImage" src="" alt="Preview" />
+      <div class="scanner-line scanner-blue" id="scannerLine1"></div>
+      <div class="scanner-line scanner-red" id="scannerLine2"></div>
+    </div>
+
+    <button id="scanBtn" class="btn btn-blue hidden">Scan Image</button>
+    <button id="downloadNow" class="btn btn-yellow hidden">Download Now</button>
+
+    <div class="res-buttons hidden" id="resolutionOptions">
+      <button class="res-btn" data-size="480">480px</button>
+      <button class="res-btn" data-size="720">720px</button>
+      <button class="res-btn" data-size="1080">1080px</button>
+      <button class="res-btn" data-size="1440">1440px</button>
+      <button class="res-btn" data-size="2160">2160px</button>
+      <button class="res-btn" data-size="5000">5000px</button>
+    </div>
+  </div>
+
+  <script>
+    const imageInput = document.getElementById("imageInput");
+    const previewImage = document.getElementById("previewImage");
+    const scannerLine1 = document.getElementById("scannerLine1");
+    const scannerLine2 = document.getElementById("scannerLine2");
+    const scanBtn = document.getElementById("scanBtn");
+    const downloadNow = document.getElementById("downloadNow");
+    const resolutionOptions = document.getElementById("resolutionOptions");
+
+    imageInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImage.src = e.target.result;
+          previewImage.style.display = "block";
+          scanBtn.classList.remove("hidden");
+          downloadNow.classList.add("hidden");
+          resolutionOptions.classList.add("hidden");
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    scanBtn.addEventListener("click", () => {
+      scanBtn.classList.add("hidden");
+
+      scannerLine1.style.display = "block";
+      scannerLine1.style.animation = "scanLine 3s ease-in-out";
+
+      setTimeout(() => {
+        scannerLine1.style.display = "none";
+
+        scannerLine2.style.display = "block";
+        scannerLine2.style.animation = "scanLine 3s ease-in-out";
+
+        setTimeout(() => {
+          scannerLine2.style.display = "none";
+          applySmartEnhancement();
+          downloadNow.classList.remove("hidden");
+        }, 3000);
+
+      }, 3000);
+    });
+
+    downloadNow.addEventListener("click", () => {
+      resolutionOptions.classList.remove("hidden");
+    });
+
+    document.querySelectorAll(".res-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const size = parseInt(btn.getAttribute("data-size"));
+        const img = new Image();
+        img.src = previewImage.src;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const aspect = img.width / img.height;
+          canvas.width = size;
+          canvas.height = size / aspect;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          const link = document.createElement("a");
+          link.href = canvas.toDataURL("image/png");
+          link.download = `scanned-${size}px.png`;
+          link.click();
+        };
+      });
+    });
+
+    function applySmartEnhancement() {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.src = previewImage.src;
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let data = imageData.data;
+
+        for (let i = 0; i < data.length; i += 4) {
+          data[i] = Math.min(255, data[i] * 1.2);
+          data[i + 1] = Math.min(255, data[i + 1] * 1.2);
+          data[i + 2] = Math.min(255, data[i + 2] * 1.2);
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+        previewImage.src = canvas.toDataURL("image/png");
+      };
+    }
+  </script>
+</body>
+</html>
