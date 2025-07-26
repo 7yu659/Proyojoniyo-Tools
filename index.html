@@ -295,6 +295,60 @@
         section.style.display = 'none';
       });
     }
+
+      // টুল দেখানোর ফাংশন
+  function showTool(id) {
+    // state push (যাতে back button কাজ করে)
+    history.pushState({ tool: id }, "", "#" + id);
+
+    document.getElementById('toolButtons').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'block';
+    document.getElementById('pageTitle').style.display = 'none';
+
+    const sections = document.querySelectorAll('.tool-section');
+    sections.forEach(section => {
+      section.classList.remove('active');
+      section.style.display = 'none';
+    });
+
+    const selected = document.getElementById(id);
+    selected.classList.add('active');
+    selected.style.display = 'block';
+  }
+
+  // হোমপেজে ফিরে যাওয়ার ফাংশন
+  function goBack() {
+    history.pushState({}, "", "#home"); // push empty state for back again
+
+    document.getElementById('toolButtons').style.display = 'grid';
+    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('pageTitle').style.display = 'block';
+
+    const sections = document.querySelectorAll('.tool-section');
+    sections.forEach(section => {
+      section.classList.remove('active');
+      section.style.display = 'none';
+    });
+  }
+
+  // ব্রাউজার বা মোবাইলের back বাটন হ্যান্ডেল করা
+  window.addEventListener("popstate", (event) => {
+    if (event.state && event.state.tool) {
+      showTool(event.state.tool); // পূর্বের টুল দেখাও
+    } else {
+      goBack(); // হোমে ফিরে যাও
+    }
+  });
+
+  // পেজ রিলোড হলেও hash থেকে আগের tool detect করে চালু করে
+  window.addEventListener("DOMContentLoaded", () => {
+    if (location.hash && location.hash !== "#home") {
+      const toolId = location.hash.replace("#", "");
+      showTool(toolId);
+    } else {
+      history.replaceState({}, "", "#home");
+    }
+  });
   </script>
 </body>
 </html>
