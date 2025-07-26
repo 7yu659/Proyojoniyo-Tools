@@ -21,6 +21,11 @@ document.addEventListener("DOMContentLoaded", function () {
         scanBtn.classList.remove("hidden");
         downloadNow.classList.add("hidden");
         resolutionOptions.classList.add("hidden");
+
+        // স্ক্যান বাটন দৃশ্যমান হওয়ার পরে স্ক্রল
+        setTimeout(() => {
+          scanBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 200);
       };
       reader.readAsDataURL(file);
     }
@@ -42,12 +47,22 @@ document.addEventListener("DOMContentLoaded", function () {
         scannerLine2.style.display = "none";
         applySmartEnhancement();
         downloadNow.classList.remove("hidden");
+
+        // ডাউনলোড বাটন দৃশ্যমান হওয়ার পরে স্ক্রল
+        setTimeout(() => {
+          downloadNow.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 200);
       }, 3000);
     }, 3000);
   });
 
   downloadNow.addEventListener("click", () => {
     resolutionOptions.classList.remove("hidden");
+
+    // রেজোলিউশন বাটন দৃশ্যমান হওয়ার পরে স্ক্রল
+    setTimeout(() => {
+      resolutionOptions.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 200);
   });
 
   const resButtons = scannerSection.querySelectorAll(".res-btn");
@@ -87,9 +102,9 @@ document.addEventListener("DOMContentLoaded", function () {
       let data = imageData.data;
 
       for (let i = 0; i < data.length; i += 4) {
-        data[i] = Math.min(255, data[i] * 1.2);
-        data[i + 1] = Math.min(255, data[i + 1] * 1.2);
-        data[i + 2] = Math.min(255, data[i + 2] * 1.2);
+        data[i] = Math.min(255, data[i] * 1.2);       // Red
+        data[i + 1] = Math.min(255, data[i + 1] * 1.2); // Green
+        data[i + 2] = Math.min(255, data[i + 2] * 1.2); // Blue
       }
 
       ctx.putImageData(imageData, 0, 0);
