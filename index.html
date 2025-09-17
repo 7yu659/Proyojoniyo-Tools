@@ -9,28 +9,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   
-  <!-- External CSS (from original code) - This can be kept if they contain styles for tool-specific elements not handled here -->
-  <!-- Note: These external CSS files might override the new design. For a unified look, their styles should ideally be integrated here. -->
+  <!-- External CSS (from original code) - This can be kept if they contain styles for tool-specific elements -->
   <link rel="stylesheet" href="qr.css">
   <link rel="stylesheet" href="remove.css">
   <link rel="stylesheet" href="Scanner.css" />
 
   <style>
-    /* === New Professional Glassmorphism Design System by Gemini === */
-
+    /* === New Professional Design System by Gemini === */
     :root {
-      --primary-color: #00A3FF;
-      --secondary-color: #A435F0;
-      --accent-color: #00F5D4;
-      --text-color: #E0E0E0;
-      --heading-color: #FFFFFF;
-      --glass-bg: rgba(20, 20, 40, 0.55);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --shadow-color: rgba(0, 0, 0, 0.2);
+      --primary-color: #3b82f6;
+      --primary-hover: #2563eb;
+      --text-color: #334155;
+      --heading-color: #0f172a;
+      --subtle-text-color: #64748b;
+      --background-color: #f8fafc;
+      --surface-color: rgba(255, 255, 255, 0.7);
+      --border-color: rgba(0, 0, 0, 0.08);
+      --shadow-color: rgba(59, 130, 246, 0.1);
+      
+      --glass-blur: 10px;
+      --transition-speed: 0.3s;
+      
       --font-primary: 'Poppins', sans-serif;
       --font-bengali: 'Hind Siliguri', sans-serif;
-      --border-radius: 20px;
-      --transition-speed: 0.4s;
+      --border-radius-lg: 24px;
+      --border-radius-md: 16px;
     }
 
     /* --- Base Styles --- */
@@ -42,101 +45,90 @@
 
     body {
       font-family: var(--font-primary);
+      background-color: var(--background-color);
+      /* Subtle gradient to make glass effect pop */
+      background-image: linear-gradient(120deg, #f3e7e9 0%, #e3eeff 100%);
       color: var(--text-color);
-      background: #11111f;
-      background-image: 
-        radial-gradient(at 20% 20%, hsla(278, 80%, 40%, 0.3) 0px, transparent 50%),
-        radial-gradient(at 80% 20%, hsla(199, 80%, 50%, 0.3) 0px, transparent 50%),
-        radial-gradient(at 20% 80%, hsla(168, 100%, 50%, 0.3) 0px, transparent 50%),
-        radial-gradient(at 80% 80%, hsla(278, 80%, 40%, 0.3) 0px, transparent 50%);
-      min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow-x: hidden;
-      line-height: 1.6;
+      flex-direction: column; /* For header/footer layout */
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 8rem 1rem 2rem 1rem; /* Top padding for fixed header */
     }
-    
+
     /* --- Header --- */
     .header {
-        width: 100%;
-        padding: 1.5rem 5%;
-        background: var(--glass-bg);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border-bottom: 1px solid var(--glass-border);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         position: fixed;
         top: 0;
         left: 0;
+        width: 100%;
+        padding: 1rem 5%;
+        background: var(--surface-color);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         z-index: 1000;
+        transition: box-shadow var(--transition-speed) ease;
     }
-
-    .header .logo {
+    .header:hover {
+        box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+    }
+    .logo {
         font-family: var(--font-bengali);
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: var(--heading-color);
-        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
-    
-    .header .nav a {
+    .logo i {
+        color: var(--primary-color);
+    }
+    .nav-links a {
+        margin-left: 1.5rem;
+        font-size: 1rem;
         color: var(--text-color);
         text-decoration: none;
-        margin-left: 2rem;
         font-weight: 500;
         transition: color var(--transition-speed) ease;
     }
-    .header .nav a:hover {
-        color: var(--accent-color);
+    .nav-links a:hover {
+        color: var(--primary-color);
     }
-    
 
-    /* --- Main Content Area --- */
-    main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
-        padding: 8rem 1rem 2rem 1rem; /* Adjust padding for fixed header */
-    }
 
     /* --- Main Container --- */
     .container {
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      padding: 2.5rem;
-      border-radius: var(--border-radius);
-      box-shadow: 0 8px 32px 0 var(--shadow-color);
+      background: var(--surface-color);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      padding: 2rem;
+      border-radius: var(--border-radius-lg);
+      box-shadow: 0 10px 40px var(--shadow-color);
       text-align: center;
       max-width: 650px;
       width: 100%;
       transition: all var(--transition-speed) ease-in-out;
-      max-height: calc(100vh - 10rem);
-      overflow-y: auto;
-      border: 1px solid var(--glass-border);
+      border: 1px solid var(--border-color);
+      position: relative;
     }
-
     .container::-webkit-scrollbar {
-        width: 6px;
+        width: 5px;
     }
     .container::-webkit-scrollbar-thumb {
-        background: var(--glass-border);
+        background: var(--border-color);
         border-radius: 10px;
-    }
-    .container::-webkit-scrollbar-thumb:hover {
-        background: var(--primary-color);
     }
 
 
     /* --- Typography --- */
     h2#pageTitle {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin-bottom: 2rem;
       font-family: var(--font-bengali);
       color: var(--heading-color);
@@ -152,10 +144,10 @@
     }
 
     .back-btn button {
-      background-color: var(--glass-bg);
-      border: 1px solid var(--glass-border);
+      background-color: transparent;
+      border: 1px solid var(--border-color);
       padding: 0.6rem 1.2rem;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       transition: all var(--transition-speed) ease;
       font-size: 0.9rem;
@@ -165,12 +157,10 @@
       align-items: center;
       gap: 0.5rem;
     }
-
     .back-btn button:hover {
       background-color: var(--primary-color);
       color: white;
       border-color: var(--primary-color);
-      box-shadow: 0 0 15px var(--primary-color);
     }
 
     /* --- Tool Grid --- */
@@ -183,12 +173,11 @@
 
     .btn {
       padding: 1.25rem 0.5rem;
-      border: 1px solid var(--glass-border);
-      border-radius: var(--border-radius);
+      border: 1px solid transparent;
+      border-radius: var(--border-radius-md);
       color: var(--heading-color);
-      background-color: transparent;
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
+      background-color: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--border-color);
       font-size: 1rem;
       font-family: var(--font-bengali);
       font-weight: 600;
@@ -204,21 +193,21 @@
     
     .btn i {
         font-size: 2.5rem;
-        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        background: linear-gradient(45deg, var(--primary-color), var(--primary-hover));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         transition: all var(--transition-speed) ease;
     }
 
     .btn:hover {
-      transform: translateY(-10px) scale(1.05);
+      transform: translateY(-10px);
       box-shadow: 0 15px 30px var(--shadow-color);
-      border-color: var(--accent-color);
-      background: rgba(0, 245, 212, 0.1);
+      background-color: #fff;
+      border-color: var(--primary-color);
     }
     
     .btn:hover i {
-      transform: scale(1.2);
+      transform: scale(1.1);
     }
 
     /* --- Tool Section --- */
@@ -230,130 +219,92 @@
       transform: translateY(10px);
       animation: toolFadeIn 0.6s forwards;
     }
-
-    .tool-section.active {
-      display: block;
-    }
+    .tool-section.active { display: block; }
     
-    .tool-section h2 {
+    .tool-section h1, .tool-section h2 {
         font-family: var(--font-bengali);
         font-weight: 600;
         margin-bottom: 1.5rem;
         color: var(--heading-color);
         text-align: center;
-        font-size: 1.8rem;
     }
 
-    /* Styling for form elements inside tools for consistency */
+    /* --- General Form Styles for Tools --- */
     .tool-section input[type="text"],
     .tool-section input[type="file"] {
         width: 100%;
-        padding: 0.8rem 1rem;
-        margin-bottom: 1rem;
-        border-radius: 10px;
-        border: 1px solid var(--glass-border);
-        background-color: rgba(0,0,0,0.2);
-        color: var(--text-color);
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
         font-family: var(--font-primary);
         font-size: 1rem;
+        margin-bottom: 1rem;
+        transition: all var(--transition-speed) ease;
     }
-    .tool-section input::placeholder {
-        color: #aaa;
+    .tool-section input[type="text"]:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px var(--shadow-color);
     }
     .tool-section button {
         width: 100%;
-        padding: 0.9rem;
-        border-radius: 10px;
+        padding: 0.8rem 1rem;
+        border-radius: 12px;
         border: none;
-        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        background-color: var(--primary-color);
         color: white;
         font-family: var(--font-bengali);
         font-weight: 600;
-        font-size: 1.1rem;
+        font-size: 1rem;
         cursor: pointer;
-        transition: all var(--transition-speed) ease;
+        transition: background-color var(--transition-speed) ease;
     }
     .tool-section button:hover {
-        box-shadow: 0 0 20px var(--primary-color);
-        transform: scale(1.02);
+        background-color: var(--primary-hover);
     }
 
     /* --- Footer --- */
     .footer {
-      width: 100%;
-      padding: 3rem 5%;
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-top: 1px solid var(--glass-border);
-      color: var(--text-color);
-      font-family: var(--font-bengali);
+        width: 100%;
+        text-align: center;
+        padding: 2rem 1rem;
+        color: var(--subtle-text-color);
+        font-family: var(--font-bengali);
+        margin-top: auto; /* Pushes footer to bottom */
     }
-    .footer-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 2rem;
-        max-width: 1200px;
+    .footer-content {
+        max-width: 800px;
         margin: 0 auto;
     }
-    .footer-col h4 {
-        color: var(--heading-color);
-        font-size: 1.2rem;
+    .footer-links {
         margin-bottom: 1rem;
-        position: relative;
     }
-    .footer-col h4::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: -5px;
-        width: 50px;
-        height: 2px;
-        background: var(--accent-color);
-    }
-    .footer-col p, .footer-col a {
-        color: var(--text-color);
+    .footer-links a {
+        color: var(--subtle-text-color);
         text-decoration: none;
-        font-size: 0.95rem;
+        margin: 0 1rem;
+        font-size: 0.9rem;
         transition: color var(--transition-speed) ease;
     }
-    .footer-col a:hover {
-        color: var(--accent-color);
-        padding-left: 5px;
+    .footer-links a:hover {
+        color: var(--primary-color);
     }
-    .footer-col ul {
-        list-style: none;
+    .social-icons {
+        margin-bottom: 1rem;
     }
-    .footer-col ul li {
-        margin-bottom: 0.75rem;
+    .social-icons a {
+        color: var(--subtle-text-color);
+        font-size: 1.5rem;
+        margin: 0 0.75rem;
+        transition: color var(--transition-speed) ease;
     }
-    .social-links a {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        border: 1px solid var(--glass-border);
-        border-radius: 50%;
-        margin-right: 10px;
-        font-size: 1.2rem;
+    .social-icons a:hover {
+        color: var(--primary-color);
     }
-    .social-links a:hover {
-        background: var(--accent-color);
-        color: #111;
-        border-color: var(--accent-color);
-        padding-left: 0;
-    }
-    .footer-bottom {
-        text-align: center;
-        padding-top: 2rem;
-        margin-top: 2rem;
-        border-top: 1px solid var(--glass-border);
-        font-size: 0.9rem;
-    }
-    .footer-bottom a {
-        color: var(--accent-color);
-        font-weight: 600;
+    .copyright a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
     }
     
     /* --- Keyframe Animations --- */
@@ -361,12 +312,10 @@
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
     @keyframes toolFadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
@@ -374,218 +323,205 @@
 
     /* --- Responsive Design --- */
     @media (max-width: 768px) {
-        .header {
-            padding: 1rem 5%;
-            flex-direction: column;
-        }
-        .header .nav {
-            margin-top: 1rem;
-        }
-        .header .nav a {
-            margin: 0 0.75rem;
-        }
-        main {
-            padding: 10rem 1rem 2rem 1rem; /* Adjust for taller header */
-        }
-        .container {
-            padding: 2rem 1.5rem;
-        }
-        .tools { 
-            grid-template-columns: 1fr 1fr; 
-        }
-        h2#pageTitle { 
-            font-size: 2rem; 
-        }
+        .nav-links { display: none; } /* Simplified header for smaller screens */
+        .tools { grid-template-columns: 1fr 1fr; }
+        h2#pageTitle { font-size: 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 6rem 0 0 0; /* Adjust padding for mobile */
+      }
+      .container {
+        padding: 2rem 1.5rem;
+        width: 100%;
+        height: calc(100vh - 5rem);
+        max-height: none;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        border-top-left-radius: var(--border-radius-lg);
+        border-top-right-radius: var(--border-radius-lg);
+      }
+      .header { padding: 1rem 1.5rem; }
+      .logo { font-size: 1.2rem; }
+      .btn { 
+        font-size: 0.85rem; 
+        padding: 1rem 0.5rem;
+        border-radius: var(--border-radius-md);
+      }
+      .btn i { font-size: 2rem; }
+      .footer { padding-bottom: 1rem; }
     }
     
-    @media (max-width: 480px) {
-        .tools {
-            gap: 1rem;
-        }
+    @media (max-width: 380px) {
+        .tools { gap: 0.75rem; }
         .btn {
-            font-size: 0.85rem; 
-            padding: 1rem 0.5rem;
-            border-radius: 15px;
+            padding: 0.8rem 0.4rem;
+            font-size: 0.8rem;
         }
-        .btn i {
-            font-size: 2.2rem;
-        }
+        .btn i { font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
 
   <header class="header">
-    <div class="logo">টুলহাব</div>
-    <nav class="nav">
-      <a href="#home" onclick="goBack()">হোম</a>
-      <a href="#">আমাদের সম্পর্কে</a>
-      <a href="#">যোগাযোগ</a>
+    <div class="logo">
+      <i class='bx bxs-magic-wand'></i>
+      <span>টুলহাব</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#home" onclick="goBack()">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <main>
-    <div class="container">
-      <div class="back-btn" id="backBtn">
-        <button onclick="goBack()"><i class='bx bx-left-arrow-alt'></i>Back</button>
-      </div>
-
-      <h2 id="pageTitle">প্রয়োজনীয় টুলস</h2>
-
-      <div class="tools" id="toolButtons">
-        <button class="btn qr" onclick="showTool('qr')">
-          <i class='bx bxs-qr-scan'></i>
-          <span>QR Generator</span>
-        </button>
-        <button class="btn bg" onclick="showTool('bg')">
-          <i class='bx bxs-eraser'></i>
-          <span>BG Remover</span>
-        </button>
-        <button class="btn scener" onclick="showTool('scener')">
-          <i class='bx bxs-file-doc'></i>
-          <span>Doc Scanner</span>
-        </button>
-        <button class="btn resolution" onclick="showTool('resolution')">
-          <i class='bx bxs-image-add'></i>
-          <span>Image Enhancer</span>
-        </button>
-        <button class="btn crop" onclick="showTool('crop')">
-          <i class='bx bxs-crop'></i>
-          <span>Image Cropper</span>
-        </button>
-        <button class="btn tex" onclick="showTool('tex')">
-          <i class='bx bxs-file-find'></i>
-          <span>Text Extractor</span>
-        </button>
-      </div>
-
-      <!-- ALL TOOL SECTIONS ARE UNCHANGED IN STRUCTURE -->
-      
-      <!-- QR Code Tool Section -->
-      <div class="tool-section" id="qr">
-        <!-- Your existing QR tool HTML goes here -->
-        <div class="card-wrapper">
-          <div id="interlinkPopup">Please enter a valid link</div>
-          <div class="card" id="mainCard">
-            <button id="muteBtn" title="Mute/Unmute">🔊</button>
-            <h2>QR Code Generator</h2>
-            <input id="linkInput" type="text" placeholder="Enter link (e.g. https://example.com)" />
-            <input id="descInput" type="text" placeholder="Optional description" />
-            <button class="generate-btn" onclick="playClick(); generateQRCode()">Generate QR Code</button>
-            <p id="counterInfo" class="description-text">You have 10 free QR codes remaining.</p>
-            <div id="qrCodeContainer"></div>
-            <button id="downloadBtn" onclick="playDownload(); showFormats()">Download Now</button>
-            <div class="format-options" id="formatOptions">
-              <button class="png-btn" onclick="playClick(); downloadFormat('png')">PNG</button>
-              <button class="jpg-btn" onclick="playClick(); downloadFormat('jpg')">JPG</button>
-              <button class="svg-btn" onclick="playClick(); downloadFormat('svg')">SVG</button>
-            </div>
-          </div>
-        </div>
-        <div id="popup">
-          <div class="popup-content">
-            <h2>Limit Exceeded</h2>
-            <p>আপনি ফ্রিতে সর্বোচ্চ ১০টি QR কোড জেনারেট করতে পারবেন। এখন থেকে প্রতি কোডের জন্য $১ দিতে হবে।</p>
-            <button onclick="playClick(); showPaymentForm()">Pay Now</button>
-            <div class="payment-form" id="paymentForm">
-              <input type="text" placeholder="Cardholder Name" />
-              <input type="text" placeholder="Card Number" />
-              <input type="text" placeholder="MM/YY" />
-              <input type="text" placeholder="CVC" />
-              <button onclick="playClick(); processPayment()">Submit Payment</button>
-            </div>
-          </div>
-        </div>
-        <audio id="clickSound" src="mouse-click-1.mp3" preload="auto"></audio>
-        <audio id="typeSound" src="keyboard-typin.mp3" preload="auto"></audio>
-        <audio id="downloadSound" src="swoosh-3.mp3" preload="auto"></audio>
-      </div>
-
-      <!-- Background Remover Tool Section -->
-      <div class="tool-section" id="bg">
-        <!-- Your existing BG Remover tool HTML goes here -->
-         <div class="card-wrapper">
-          <div class="card-content" id="card">
-            <h1>Remove Background</h1>
-            <input type="file" id="imageInput" accept="image/*" onchange="showPreview()">
-            <div style="position:relative;">
-              <img id="previewImage" style="display:none;">
-              <div id="processingOverlay" class="processing-overlay" style="display:none;">
-                <div class="loader"></div>
-                <span id="progressPercent">0%</span>
-              </div>
-            </div>
-            <button onclick="removeBackground()" id="submitBtn">Remove Background</button>
-            <button id="downloadMainBtn">Download Now</button>
-            <div class="download-buttons" id="downloadBtns">
-              <button id="downloadPngBtn">Download PNG</button>
-              <button id="downloadJpgBtn">Download HD</button>
-            </div>
-            <div class="error" id="errorMsg"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Document Scanner Tool Section -->
-      <div class="tool-section" id="scener">
-        <!-- Your existing Doc Scanner tool HTML goes here -->
-        <h2>Image Scanner</h2>
-        <input type="file" id="imageInput" accept="image/*" />
-        <div id="previewContainer">
-          <img id="previewImage" src="" alt="Preview" />
-          <div class="scanner-line scanner-blue" id="scannerLine1"></div>
-          <div class="scanner-line scanner-red" id="scannerLine2"></div>
-        </div>
-        <button id="scanBtn" class="btn btn-blue hidden">Scan Image</button>
-        <button id="downloadNow" class="btn btn-yellow hidden">Download Now</button>
-        <div class="res-buttons hidden" id="resolutionOptions">
-          <button class="res-btn" data-size="480">480px</button>
-          <button class="res-btn" data-size="720">720px</button>
-          <button class="res-btn" data-size="1080">1080px</button>
-          <button class="res-btn" data-size="1440">1440px</button>
-          <button class="res-btn" data-size="2160">2160px</button>
-          <button class="res-btn" data-size="5000">5000px</button>
-        </div>
-      </div>
-
-      <!-- Other Tools placeholder -->
-      <div class="tool-section" id="resolution"><h2>Image Enhancer Tool</h2><p>Tool content goes here...</p></div>
-      <div class="tool-section" id="crop"><h2>Image Cropper Tool</h2><p>Tool content goes here...</p></div>
-      <div class="tool-section" id="tex"><h2>Text Extractor Tool</h2><p>Tool content goes here...</p></div>
-      
+  <div class="container">
+    <div class="back-btn" id="backBtn">
+      <button onclick="goBack()"><i class='bx bx-left-arrow-alt'></i>Back</button>
     </div>
-  </main>
-  
+
+    <h2 id="pageTitle">প্রয়োজনীয় টুলস</h2>
+
+    <div class="tools" id="toolButtons">
+      <button class="btn qr" onclick="showTool('qr')">
+        <i class='bx bxs-qr-scan'></i>
+        <span>QR Generator</span>
+      </button>
+      <button class="btn bg" onclick="showTool('bg')">
+        <i class='bx bxs-eraser'></i>
+        <span>BG Remover</span>
+      </button>
+      <button class="btn scener" onclick="showTool('scener')">
+        <i class='bx bxs-file-doc'></i>
+        <span>Doc Scanner</span>
+      </button>
+      <button class="btn resolution" onclick="showTool('resolution')">
+        <i class='bx bxs-image-add'></i>
+        <span>Image Enhancer</span>
+      </button>
+      <button class="btn crop" onclick="showTool('crop')">
+        <i class='bx bxs-crop'></i>
+        <span>Image Cropper</span>
+      </button>
+      <button class="btn tex" onclick="showTool('tex')">
+        <i class='bx bxs-file-find'></i>
+        <span>Text Extractor</span>
+      </button>
+    </div>
+
+    <!-- QR Code Tool Section -->
+    <div class="tool-section" id="qr">
+      <!-- Your existing QR tool HTML goes here (No Changes) -->
+      <div class="card-wrapper">
+        <div id="interlinkPopup">Please enter a valid link</div>
+        <div class="card" id="mainCard">
+          <button id="muteBtn" title="Mute/Unmute">🔊</button>
+          <h2>QR Code Generator</h2>
+          <input id="linkInput" type="text" placeholder="Enter link (e.g. https://example.com)" />
+          <input id="descInput" type="text" placeholder="Optional description" />
+          <button class="generate-btn" onclick="playClick(); generateQRCode()">Generate QR Code</button>
+          <p id="counterInfo" class="description-text">You have 10 free QR codes remaining.</p>
+          <div id="qrCodeContainer"></div>
+          <button id="downloadBtn" onclick="playDownload(); showFormats()">Download Now</button>
+          <div class="format-options" id="formatOptions">
+            <button class="png-btn" onclick="playClick(); downloadFormat('png')">PNG</button>
+            <button class="jpg-btn" onclick="playClick(); downloadFormat('jpg')">JPG</button>
+            <button class="svg-btn" onclick="playClick(); downloadFormat('svg')">SVG</button>
+          </div>
+        </div>
+      </div>
+      <div id="popup">
+        <div class="popup-content">
+          <h2>Limit Exceeded</h2>
+          <p>আপনি ফ্রিতে সর্বোচ্চ ১০টি QR কোড জেনারেট করতে পারবেন। এখন থেকে প্রতি কোডের জন্য $১ দিতে হবে।</p>
+          <button onclick="playClick(); showPaymentForm()">Pay Now</button>
+          <div class="payment-form" id="paymentForm">
+            <input type="text" placeholder="Cardholder Name" />
+            <input type="text" placeholder="Card Number" />
+            <input type="text" placeholder="MM/YY" />
+            <input type="text" placeholder="CVC" />
+            <button onclick="playClick(); processPayment()">Submit Payment</button>
+          </div>
+        </div>
+      </div>
+      <audio id="clickSound" src="mouse-click-1.mp3" preload="auto"></audio>
+      <audio id="typeSound" src="keyboard-typin.mp3" preload="auto"></audio>
+      <audio id="downloadSound" src="swoosh-3.mp3" preload="auto"></audio>
+    </div>
+
+    <!-- Background Remover Tool Section -->
+    <div class="tool-section" id="bg">
+      <!-- Your existing BG Remover tool HTML goes here (No Changes) -->
+       <div class="card-wrapper">
+        <div class="card-content" id="card">
+          <h1>Remove Background</h1>
+          <input type="file" id="imageInput" accept="image/*" onchange="showPreview()">
+          <div style="position:relative;">
+            <img id="previewImage" style="display:none;">
+            <div id="processingOverlay" class="processing-overlay" style="display:none;">
+              <div class="loader"></div>
+              <span id="progressPercent">0%</span>
+            </div>
+          </div>
+          <button onclick="removeBackground()" id="submitBtn">Remove Background</button>
+          <button id="downloadMainBtn">Download Now</button>
+          <div class="download-buttons" id="downloadBtns">
+            <button id="downloadPngBtn">Download PNG</button>
+            <button id="downloadJpgBtn">Download HD</button>
+          </div>
+          <div class="error" id="errorMsg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Scanner Tool Section -->
+    <div class="tool-section" id="scener">
+      <!-- Your existing Doc Scanner tool HTML goes here (No Changes) -->
+      <h2>Image Scanner</h2>
+      <input type="file" id="imageInput" accept="image/*" />
+      <div id="previewContainer">
+        <img id="previewImage" src="" alt="Preview" />
+        <div class="scanner-line scanner-blue" id="scannerLine1"></div>
+        <div class="scanner-line scanner-red" id="scannerLine2"></div>
+      </div>
+      <button id="scanBtn" class="btn btn-blue hidden">Scan Image</button>
+      <button id="downloadNow" class="btn btn-yellow hidden">Download Now</button>
+      <div class="res-buttons hidden" id="resolutionOptions">
+        <button class="res-btn" data-size="480">480px</button>
+        <button class="res-btn" data-size="720">720px</button>
+        <button class="res-btn" data-size="1080">1080px</button>
+        <button class="res-btn" data-size="1440">1440px</button>
+        <button class="res-btn" data-size="2160">2160px</button>
+        <button class="res-btn" data-size="5000">5000px</button>
+      </div>
+    </div>
+
+    <!-- Other Tools placeholder -->
+    <div class="tool-section" id="resolution"><h2>Image Enhancer Tool</h2><p>Tool content goes here...</p></div>
+    <div class="tool-section" id="crop"><h2>Image Cropper Tool</h2><p>Tool content goes here...</p></div>
+    <div class="tool-section" id="tex"><h2>Text Extractor Tool</h2><p>Tool content goes here...</p></div>
+  </div>
+
   <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-col">
-            <h4>আমাদের সম্পর্কে</h4>
-            <p>আমরা দৈনন্দিন জীবনের প্রয়োজনীয় ডিজিটাল টুলসগুলো একটি প্ল্যাটফর্মে সহজলভ্য করার জন্য কাজ করছি। আমাদের লক্ষ্য আপনার কাজকে আরও সহজ ও গতিময় করা।</p>
-        </div>
-        <div class="footer-col">
-            <h4>গুরুত্বপূর্ণ টুলস</h4>
-            <ul>
-                <li><a href="#qr" onclick="showTool('qr')">QR Generator</a></li>
-                <li><a href="#bg" onclick="showTool('bg')">Background Remover</a></li>
-                <li><a href="#scener" onclick="showTool('scener')">Document Scanner</a></li>
-                <li><a href="#tex" onclick="showTool('tex')">Text Extractor</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>যোগাযোগ</h4>
-            <div class="social-links">
-                <a href="https://www.facebook.com/ebrahim.khalil.260497" target="_blank"><i class='bx bxl-facebook'></i></a>
-                <a href="#"><i class='bx bxl-twitter'></i></a>
-                <a href="#"><i class='bx bxl-instagram-alt'></i></a>
-                <a href="#"><i class='bx bxl-linkedin'></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-      Developer By: <a href="https://www.facebook.com/ebrahim.khalil.260497" target="_blank">Ebrahim Khalil</a>
+    <div class="footer-content">
+      <div class="social-icons">
+        <a href="https://www.facebook.com/ebrahim.khalil.260497" target="_blank" title="Facebook"><i class='bx bxl-facebook-square'></i></a>
+        <a href="#" target="_blank" title="Twitter"><i class='bx bxl-twitter'></i></a>
+        <a href="#" target="_blank" title="GitHub"><i class='bx bxl-github'></i></a>
+        <a href="#" target="_blank" title="LinkedIn"><i class='bx bxl-linkedin-square'></i></a>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+      <div class="copyright">
+        &copy; 2024 টুলহাব | Developed by <a href="https://www.facebook.com/ebrahim.khalil.260497" target="_blank">Ebrahim Khalil</a>
+      </div>
     </div>
   </footer>
-
 
   <!-- Scripts (Unchanged from your original code) -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
@@ -622,7 +558,7 @@
 
     // New and improved navigation handling (from original code, slightly optimized)
     function handleNavigation(toolId = null) {
-      const isHome = toolId === null;
+      const isHome = toolId === null || toolId === 'home' || toolId === '';
 
       document.getElementById('toolButtons').style.display = isHome ? 'grid' : 'none';
       document.getElementById('backBtn').style.display = isHome ? 'none' : 'block';
@@ -632,7 +568,7 @@
         section.classList.remove('active');
       });
 
-      if (!isHome) {
+      if (!isHome && document.getElementById(toolId)) {
         document.getElementById(toolId).classList.add('active');
       }
     }
