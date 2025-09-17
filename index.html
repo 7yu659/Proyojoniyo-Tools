@@ -6,207 +6,256 @@
   <title>প্রয়োজনীয় টুলস</title>
   
   <!-- Fonts and Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Siyam+Rupali&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   
-  <!-- External CSS (from original code) -->
+  <!-- External CSS (from original code) - This can be kept if they contain styles for tool-specific elements not handled here -->
   <link rel="stylesheet" href="qr.css">
   <link rel="stylesheet" href="remove.css">
   <link rel="stylesheet" href="Scanner.css" />
 
   <style>
-    /* === New Design System by Gemini === */
+    /* === New Professional Design System by Gemini === */
 
     :root {
-      --primary-color: #4a90e2;
-      --secondary-color: #50e3c2;
-      --background-color: #f0f2f5;
-      --container-bg: #ffffff;
-      --text-color: #333;
-      --heading-color: #1a202c;
-      --border-color: #e2e8f0;
-      --shadow-color: rgba(0, 0, 0, 0.08);
-      --font-primary: 'Roboto', sans-serif;
-      --font-bengali: 'Siyam Rupali', sans-serif;
+      --primary-color: #007BFF;
+      --secondary-color: #00C6FF;
+      --background-color: #F7F9FC;
+      --surface-color: #FFFFFF;
+      --text-color: #4A5568;
+      --heading-color: #1A202C;
+      --border-color: #E2E8F0;
+      --shadow-color: rgba(0, 123, 255, 0.1);
+      --font-primary: 'Poppins', sans-serif;
+      --font-bengali: 'Hind Siliguri', sans-serif;
+      --border-radius: 16px;
+      --transition-speed: 0.3s;
+    }
+
+    /* --- Base Styles --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      padding: 0;
       font-family: var(--font-primary);
-      background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background-color: var(--background-color);
+      color: var(--text-color);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
+      padding: 1rem;
     }
 
+    /* --- Main Container --- */
     .container {
-      background: var(--container-bg);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px var(--shadow-color);
+      background: var(--surface-color);
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 10px 40px var(--shadow-color);
       text-align: center;
-      max-width: 500px;
+      max-width: 600px;
       width: 100%;
-      animation: fadeIn 0.8s ease-out;
-      transition: all 0.4s ease;
+      transition: all var(--transition-speed) ease-in-out;
       max-height: 95vh;
       overflow-y: auto;
+      border: 1px solid var(--border-color);
+    }
+    .container::-webkit-scrollbar {
+        width: 5px;
+    }
+    .container::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 10px;
     }
 
+
+    /* --- Typography --- */
     h2#pageTitle {
-      font-size: 28px;
-      margin-bottom: 30px;
+      font-size: 2rem;
+      margin-bottom: 2rem;
       font-family: var(--font-bengali);
       color: var(--heading-color);
       font-weight: 700;
-      animation: slideDown 0.6s ease-out;
-    }
-
-    .tools {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .btn {
-      padding: 15px;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      color: var(--text-color);
-      background-color: #fff;
-      font-size: 16px;
-      font-family: var(--font-primary);
-      font-weight: 500;
-      cursor: pointer;
-      text-transform: capitalize;
-      transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeInDown 0.8s ease-out;
     }
     
-    .btn i {
-        font-size: 2.5rem;
-        background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        transition: transform 0.3s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(74, 144, 226, 0.15);
-      border-color: var(--primary-color);
-    }
-    
-    .btn:hover i {
-        transform: scale(1.1);
-    }
-
-    /* Removing old background colors to unify design */
-    .qr, .bg, .scener, .resolution, .crop, .tex { background-color: #fff; }
-
-    .tool-section {
-      display: none;
-      margin-top: 20px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .tool-section.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    /* --- Back Button --- */
     .back-btn {
       display: none;
-      margin-bottom: 20px;
+      margin-bottom: 1.5rem;
       text-align: left;
     }
 
     .back-btn button {
-      background-color: var(--border-color);
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-size: 14px;
+      transition: all var(--transition-speed) ease;
+      font-size: 0.9rem;
       font-weight: 500;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .back-btn button:hover {
-      background-color: #d8dde4;
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
     }
 
+    /* --- Tool Grid --- */
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .btn {
+      padding: 1.25rem 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      color: var(--heading-color);
+      background-color: var(--surface-color);
+      font-size: 1rem;
+      font-family: var(--font-bengali);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-speed) ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn i {
+        font-size: 2.25rem;
+        color: var(--primary-color);
+        transition: all var(--transition-speed) ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px var(--shadow-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn:hover i {
+      transform: scale(1.1);
+      color: var(--secondary-color);
+    }
+
+    /* --- Tool Section --- */
+    .tool-section {
+      display: none;
+      margin-top: 1rem;
+      text-align: left;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: toolFadeIn 0.6s forwards;
+    }
+
+    .tool-section.active {
+      display: block;
+    }
+    
+    .tool-section h2 {
+        font-family: var(--font-bengali);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--heading-color);
+        text-align: center;
+    }
+
+    /* --- Footer --- */
     .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #718096;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #A0AEC0;
+      font-family: var(--font-bengali);
     }
 
     .footer a {
       color: var(--primary-color);
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
+      font-weight: 600;
+      transition: color var(--transition-speed) ease;
     }
 
     .footer a:hover {
-        color: var(--secondary-color);
-        text-decoration: underline;
+      color: var(--secondary-color);
+      text-decoration: underline;
     }
     
-    /* Keyframe Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes slideDown {
+    /* --- Keyframe Animations --- */
+    @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Responsive Design */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes toolFadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Responsive Design --- */
     @media (max-width: 600px) {
       body {
         padding: 0;
+        align-items: flex-start;
       }
       .container {
-        padding: 25px;
+        padding: 2rem 1.5rem;
         height: 100vh;
         max-height: 100vh;
         border-radius: 0;
         box-shadow: none;
-        box-sizing: border-box;
+        border: none;
       }
       .tools { 
         grid-template-columns: 1fr 1fr; 
-        gap: 12px;
       }
       .btn { 
-        font-size: 14px; 
-        padding: 12px;
+        font-size: 0.85rem; 
+        padding: 1rem 0.5rem;
+        border-radius: 12px;
       }
       .btn i {
-          font-size: 2rem;
+        font-size: 2rem;
       }
       h2#pageTitle { 
-        font-size: 24px; 
+        font-size: 1.8rem; 
       }
     }
     
-    @media (max-width: 400px) {
+    @media (max-width: 380px) {
         .tools {
-            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+        .btn {
+            padding: 0.8rem 0.4rem;
+            font-size: 0.8rem;
+        }
+        .btn i {
+            font-size: 1.8rem;
         }
     }
 
@@ -216,7 +265,7 @@
 
   <div class="container">
     <div class="back-btn" id="backBtn">
-      <button onclick="goBack()"><i class='bx bx-arrow-back'></i> Back</button>
+      <button onclick="goBack()"><i class='bx bx-left-arrow-alt'></i>Back</button>
     </div>
 
     <h2 id="pageTitle">প্রয়োজনীয় টুলস</h2>
@@ -224,32 +273,33 @@
     <div class="tools" id="toolButtons">
       <button class="btn qr" onclick="showTool('qr')">
         <i class='bx bxs-qr-scan'></i>
-        QR Generator
+        <span>QR Generator</span>
       </button>
       <button class="btn bg" onclick="showTool('bg')">
         <i class='bx bxs-eraser'></i>
-        BG Remover
+        <span>BG Remover</span>
       </button>
       <button class="btn scener" onclick="showTool('scener')">
         <i class='bx bxs-file-doc'></i>
-        Doc Scanner
+        <span>Doc Scanner</span>
       </button>
       <button class="btn resolution" onclick="showTool('resolution')">
-        <i class='bx bxs-image'></i>
-        Image Enhancer
+        <i class='bx bxs-image-add'></i>
+        <span>Image Enhancer</span>
       </button>
       <button class="btn crop" onclick="showTool('crop')">
         <i class='bx bxs-crop'></i>
-        Image Cropper
+        <span>Image Cropper</span>
       </button>
       <button class="btn tex" onclick="showTool('tex')">
         <i class='bx bxs-file-find'></i>
-        Text Extractor
+        <span>Text Extractor</span>
       </button>
     </div>
 
-       <!-- QR Code Tool Section -->
+    <!-- QR Code Tool Section -->
     <div class="tool-section" id="qr">
+      <!-- Your existing QR tool HTML goes here -->
       <div class="card-wrapper">
         <div id="interlinkPopup">Please enter a valid link</div>
         <div class="card" id="mainCard">
@@ -291,7 +341,8 @@
 
     <!-- Background Remover Tool Section -->
     <div class="tool-section" id="bg">
-      <div class="card-wrapper">
+      <!-- Your existing BG Remover tool HTML goes here -->
+       <div class="card-wrapper">
         <div class="card-content" id="card">
           <h1>Remove Background</h1>
           <input type="file" id="imageInput" accept="image/*" onchange="showPreview()">
@@ -315,6 +366,7 @@
 
     <!-- Document Scanner Tool Section -->
     <div class="tool-section" id="scener">
+      <!-- Your existing Doc Scanner tool HTML goes here -->
       <h2>Image Scanner</h2>
       <input type="file" id="imageInput" accept="image/*" />
       
@@ -347,14 +399,17 @@
     </div>
   </div>
 
-  <!-- Scripts (Unchanged) -->
+  <!-- Scripts (Unchanged from your original code) -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script src="qr.js"></script>
   <script src="remove.js"></script>
   <script src="Scanner.js"></script>
 
   <script>
-    // Unchanged JavaScript Logic
+    // Unchanged JavaScript Logic from your original code
+    // This script controls the tool navigation and functionality.
+    // It is preserved exactly as you provided to ensure no system is affected.
+
     function showTool(id) {
       document.getElementById('toolButtons').style.display = 'none';
       document.getElementById('backBtn').style.display = 'block';
